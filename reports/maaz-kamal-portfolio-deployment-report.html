@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Muhammad Maaz Kamal Portfolio Deployment Report</title>
+  <style>
+    @page {
+      margin: 18mm;
+      size: A4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      color: #101820;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.52;
+      margin: 0;
+    }
+
+    .cover {
+      border-bottom: 4px solid #0f766e;
+      margin-bottom: 26px;
+      padding-bottom: 20px;
+    }
+
+    .eyebrow {
+      color: #0f766e;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      margin: 0 0 10px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 32px;
+      line-height: 1.08;
+      margin: 0 0 12px;
+    }
+
+    h2 {
+      border-bottom: 1px solid #d7e2df;
+      color: #0b3f3a;
+      font-size: 20px;
+      margin: 26px 0 12px;
+      padding-bottom: 6px;
+    }
+
+    h3 {
+      font-size: 15px;
+      margin: 16px 0 6px;
+    }
+
+    p {
+      margin: 0 0 10px;
+    }
+
+    a {
+      color: #0f766e;
+      text-decoration: none;
+    }
+
+    table {
+      border-collapse: collapse;
+      margin: 10px 0 16px;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid #d7e2df;
+      padding: 9px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #edf8f5;
+      color: #0b3f3a;
+      width: 32%;
+    }
+
+    ul {
+      margin: 8px 0 16px 20px;
+      padding: 0;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    .grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin: 12px 0 18px;
+    }
+
+    .card {
+      border: 1px solid #d7e2df;
+      border-left: 4px solid #0f766e;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .card strong {
+      color: #0b3f3a;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      background: #edf8f5;
+      border: 1px solid #cfe6df;
+      border-radius: 999px;
+      color: #0b3f3a;
+      display: inline-block;
+      font-size: 11px;
+      padding: 4px 8px;
+    }
+
+    .status {
+      background: #e9f9ef;
+      border: 1px solid #bfe9ca;
+      border-radius: 8px;
+      color: #14532d;
+      font-weight: 700;
+      padding: 10px 12px;
+    }
+
+    .muted {
+      color: #51605d;
+    }
+
+    .mono {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .page-break {
+      break-before: page;
+    }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <p class="eyebrow">GitHub Pages Deployment Report</p>
+    <h1>Muhammad Maaz Kamal Portfolio Website</h1>
+    <p class="status">Deployment verified live on GitHub Pages.</p>
+    <p class="muted">Prepared on 2026-06-14 03:38:23 +05:00 for Muhammad Maaz Kamal.</p>
+  </section>
+
+  <h2>Deployment Summary</h2>
+  <table>
+    <tr><th>Live website</th><td><a href="https://maazkamal08.github.io/">https://maazkamal08.github.io/</a></td></tr>
+    <tr><th>GitHub repository</th><td><a href="https://github.com/MaazKamal08/MaazKamal08.github.io">https://github.com/MaazKamal08/MaazKamal08.github.io</a></td></tr>
+    <tr><th>Branch</th><td>main</td></tr>
+    <tr><th>Commit deployed</th><td class="mono">7202e97924ad117db9d4b0ff088ba7c3f65b8547</td></tr>
+    <tr><th>Commit message</th><td>Enhance portfolio experience and role positioning</td></tr>
+    <tr><th>Deployment method</th><td>GitHub Actions workflow: Deploy Portfolio to GitHub Pages</td></tr>
+    <tr><th>Static build directory</th><td class="mono">./out</td></tr>
+    <tr><th>Production base path</th><td class="mono">/</td></tr>
+  </table>
+
+  <h2>Verification Results</h2>
+  <ul>
+    <li>Production build completed successfully using GitHub Pages environment variables.</li>
+    <li>Live URL returned HTTP 200.</li>
+    <li>Live page contains the new service operating system section.</li>
+    <li>Live page contains the updated role sequence: Full Stack AI Engineer, Senior Information Security Analyst, AI/Automation Engineer, Cybersecurity Engineer.</li>
+    <li>Local responsive checks passed for desktop and mobile widths with no horizontal overflow.</li>
+    <li>Browser console check returned no JavaScript errors during local verification.</li>
+    <li>TypeScript validation passed with <span class="mono">npm run typecheck</span>.</li>
+  </ul>
+
+  <h2>Portfolio Improvements Included</h2>
+  <div class="grid">
+    <div class="card">
+      <strong>Advanced Visual Experience</strong>
+      <p>Added scroll progress, active section navigation, smart HUD, hover elevation, card glow effects, and button sheen interactions.</p>
+    </div>
+    <div class="card">
+      <strong>Balanced AI + Security Positioning</strong>
+      <p>Portfolio now presents AI engineering, cybersecurity, automation, and leadership as equal pillars instead of one dominant track.</p>
+    </div>
+    <div class="card">
+      <strong>Service Operating System</strong>
+      <p>Added service tracks for Full Stack AI Engineering, Security Automation & SOC AI, Client Automation Systems, and AI + SOC Leadership.</p>
+    </div>
+    <div class="card">
+      <strong>Role Ticker Refinement</strong>
+      <p>Updated hero role sequence and fixed animation behavior so long titles render cleanly without leftover characters or empty slots.</p>
+    </div>
+  </div>
+
+  <h2>Final Hero Role Sequence</h2>
+  <ol>
+    <li>Full Stack AI Engineer</li>
+    <li>Senior Information Security Analyst</li>
+    <li>AI/Automation Engineer</li>
+    <li>Cybersecurity Engineer</li>
+  </ol>
+
+  <h2>Service Tracks Added</h2>
+  <h3>Full Stack AI Engineering</h3>
+  <p>Production AI applications, RAG platforms, agent workflows, internal tools, APIs, and dashboards.</p>
+  <div class="pill-row">
+    <span class="pill">OpenAI</span><span class="pill">LangGraph</span><span class="pill">LangSmith</span><span class="pill">Pydantic</span><span class="pill">FastAPI</span><span class="pill">Next.js</span>
+  </div>
+
+  <h3>Security Automation & SOC AI</h3>
+  <p>SOC triage, phishing intelligence, firewall response, SOAR, EDR/XDR enrichment, and alert workflows.</p>
+  <div class="pill-row">
+    <span class="pill">Wazuh</span><span class="pill">EDR/XDR</span><span class="pill">n8n</span><span class="pill">VirusTotal</span><span class="pill">pfSense</span><span class="pill">MITRE ATT&CK</span>
+  </div>
+
+  <h3>Client Automation Systems</h3>
+  <p>Business automation for marketing, CRM, SEO, lead routing, WhatsApp, reporting, and operations teams.</p>
+  <div class="pill-row">
+    <span class="pill">GoHighLevel</span><span class="pill">Make.com</span><span class="pill">Zapier</span><span class="pill">WooCommerce</span><span class="pill">Google Sheets</span><span class="pill">n8n</span>
+  </div>
+
+  <h3>AI + SOC Leadership</h3>
+  <p>Technical leadership across AI engineering teams and SOC operations, turning complex delivery into accountable outcomes.</p>
+  <div class="pill-row">
+    <span class="pill">Delivery Standards</span><span class="pill">Code Review</span><span class="pill">SOC Playbooks</span><span class="pill">Compliance</span><span class="pill">Client Success</span>
+  </div>
+
+  <h2 class="page-break">Files Changed In Deployment</h2>
+  <table>
+    <tr><th>File</th><th>Purpose</th></tr>
+    <tr><td class="mono">src/data/portfolio.ts</td><td>Added service-track data, operating signals, and updated the hero role sequence.</td></tr>
+    <tr><td class="mono">src/components/PortfolioExperience.tsx</td><td>Rendered service section, scroll progress, active navigation, smart HUD, and long-title role class.</td></tr>
+    <tr><td class="mono">src/app/globals.css</td><td>Added advanced animation, responsive service layout, ticker fixes, hover effects, and HUD styling.</td></tr>
+  </table>
+
+  <h2>Build And Deployment Commands</h2>
+  <table>
+    <tr><th>TypeScript check</th><td class="mono">npm run typecheck</td></tr>
+    <tr><th>Production build</th><td class="mono">GITHUB_PAGES=true npm run build</td></tr>
+    <tr><th>Commit</th><td class="mono">git commit -m "Enhance portfolio experience and role positioning"</td></tr>
+    <tr><th>Push</th><td class="mono">git push origin main</td></tr>
+  </table>
+
+  <h2>Deployment Notes</h2>
+  <ul>
+    <li>The website is configured as a static Next.js export with <span class="mono">output: "export"</span>.</li>
+    <li>GitHub Pages asset paths are served from the root user-site URL with <span class="mono">GITHUB_PAGES=true</span> and no repository base path.</li>
+    <li>The workflow installs dependencies with <span class="mono">npm ci --legacy-peer-deps</span>, builds the static export, uploads <span class="mono">./out</span>, and deploys through <span class="mono">actions/deploy-pages@v4</span>.</li>
+    <li>The live deployment was verified after push by checking the public GitHub Pages URL for the new content.</li>
+  </ul>
+
+  <h2>Current Status</h2>
+  <p class="status">The updated portfolio is deployed and publicly accessible.</p>
+</body>
+</html>
