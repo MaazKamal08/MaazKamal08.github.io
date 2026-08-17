@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent, type MouseEvent } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useReducedMotion } from "framer-motion";
 import gsap from "gsap";
@@ -331,6 +331,7 @@ export function PortfolioExperience() {
   const [activeSection, setActiveSection] = useState("top");
   const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
   const [brokenScreenshots, setBrokenScreenshots] = useState<Record<string, boolean>>({});
+  const [contactStatus, setContactStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const rootRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const sectionLabels: Record<string, string> = {
@@ -407,6 +408,35 @@ export function PortfolioExperience() {
   const scrollToContact = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleContactSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
+    if (!accessKey) {
+      form.setAttribute("action", `mailto:${profile.email}`);
+      form.setAttribute("method", "post");
+      form.setAttribute("encType", "text/plain");
+      form.submit();
+      return;
+    }
+    setContactStatus("submitting");
+    const formData = new FormData(form);
+    formData.append("access_key", accessKey);
+    formData.append("subject", "New portfolio contact request");
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
+      const result = await response.json();
+      if (result.success) {
+        setContactStatus("success");
+        form.reset();
+      } else {
+        setContactStatus("error");
+      }
+    } catch {
+      setContactStatus("error");
+    }
   };
 
   const startVoiceNavigation = () => {
@@ -716,12 +746,16 @@ export function PortfolioExperience() {
             <a href={profile.github} target="_blank" rel="noreferrer"><GitBranch size={18} />GitHub</a>
           </div>
         </div>
-        <form className="contact-form" action={`mailto:${profile.email}`} method="post" encType="text/plain">
-          <input name="name" placeholder="Name" />
-          <input name="email" placeholder="Email" type="email" />
-          <textarea name="message" placeholder="Project, role, or collaboration details" rows={5} />
-          <button className="primary-btn" type="submit">Send brief <Mail size={18} /></button>
+        <form className="contact-form" onSubmit={handleContactSubmit}>
+          <input name="name" placeholder="Name" required />
+          <input name="email" placeholder="Email" type="email" required />
+          <textarea name="message" placeholder="Project, role, or collaboration details" rows={5} required />
+          <button className="primary-btn" type="submit" disabled={contactStatus === "submitting"}>
+            {contactStatus === "submitting" ? "Sending..." : <>Send brief <Mail size={18} /></>}
+          </button>
           <a className="secondary-btn" href={`mailto:${profile.email}?subject=Consultation request`}><Calendar size={18} /> Book consultation</a>
+          {contactStatus === "success" && <p className="form-status form-status-success">Thanks - your message was sent. I'll reply within a day.</p>}
+          {contactStatus === "error" && <p className="form-status form-status-error">Something went wrong. Email {profile.email} directly instead.</p>}
         </form>
       </section>
 

@@ -64,9 +64,20 @@ The static site is exported to `out/`.
 2. Push this source code.
 3. In GitHub, enable Pages with source `GitHub Actions`.
 4. Set repository variable `NEXT_PUBLIC_REPOSITORY_NAME` to the repo name if deploying under `https://MaazKamal08.github.io/<repo>/`.
-5. The workflow builds with `GITHUB_PAGES=true` and publishes `out/`.
+5. Set repository variable `NEXT_PUBLIC_WEB3FORMS_KEY` (Settings -> Secrets and variables -> Actions -> Variables) to enable the contact form (see "Contact form" below).
+6. The workflow builds with `GITHUB_PAGES=true` and publishes `out/`.
 
 For a user site repository named `MaazKamal08.github.io`, leave `NEXT_PUBLIC_REPOSITORY_NAME` empty.
+
+## Contact form
+
+The contact form submits via [Web3Forms](https://web3forms.com/) (free tier, no backend needed):
+
+1. Get a free access key at [web3forms.com](https://web3forms.com/).
+2. Local dev: copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_WEB3FORMS_KEY`.
+3. Production: set the `NEXT_PUBLIC_WEB3FORMS_KEY` repository variable in GitHub Actions (Settings -> Secrets and variables -> Actions -> Variables tab -> New repository variable). It's read at build time, so redeploy after setting it.
+
+Without a key configured, the form falls back to opening the visitor's own mail client via `mailto:`.
 
 ## Vercel
 
