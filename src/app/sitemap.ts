@@ -19,6 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: buildDate,
       changeFrequency: "weekly",
       priority: 0.8
+    },
+    {
+      url: "https://maazkamal08.github.io/repos/",
+      lastModified: buildDate,
+      changeFrequency: "daily",
+      priority: 0.7
     }
   ];
 }

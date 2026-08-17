@@ -973,6 +973,106 @@ h3 {
   font-size: 0.78rem;
 }
 
+.repo-count-line {
+  color: var(--muted);
+  margin-top: -8px;
+}
+
+.repo-count-line a {
+  color: var(--mint);
+}
+
+.repo-view-all {
+  margin-top: 14px;
+  width: fit-content;
+}
+
+.repos-hero {
+  padding-top: 120px;
+}
+
+.back-link {
+  align-items: center;
+  color: var(--muted);
+  display: inline-flex;
+  gap: 8px;
+  font-size: 0.86rem;
+  margin-bottom: 20px;
+  transition: color 180ms ease;
+}
+
+.back-link:hover {
+  color: var(--mint);
+}
+
+.repos-hero .search-box {
+  margin: 24px 0 16px;
+  max-width: 480px;
+}
+
+.repo-filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.repo-filter-tabs button {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.82rem;
+  padding: 8px 16px;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.repo-filter-tabs button:hover {
+  color: var(--text);
+}
+
+.repo-filter-tabs button.active {
+  border-color: var(--mint);
+  color: var(--mint);
+}
+
+.repo-full-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.repo-full-item {
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+
+.repo-full-item:hover {
+  border-color: var(--mint);
+  transform: translateY(-2px);
+}
+
+.repo-full-item-head {
+  align-items: center;
+  color: var(--amber);
+  display: flex;
+  justify-content: space-between;
+}
+
+.repo-full-item-meta {
+  color: var(--muted);
+  display: flex;
+  font-size: 0.78rem;
+  gap: 10px;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.repo-empty {
+  color: var(--muted);
+  padding: 40px 0;
+  text-align: center;
+}
+
 .insight-strip {
   display: grid;
   gap: 12px;

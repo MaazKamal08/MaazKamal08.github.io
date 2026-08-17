@@ -12,6 +12,16 @@ const outPath = path.join(__dirname, "..", "src", "data", "github-repos.generate
 const GITHUB_USER = "MaazKamal08";
 const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 
+// Repos that aren't real portfolio projects: this site itself, an older duplicate
+// portfolio, and GitHub's auto-generated "Skills" tutorial-completion repos.
+const EXCLUDED_REPOS = new Set([
+  "MaazKamal08.github.io",
+  "MaazKamal08",
+  "maazkamal",
+  "skills-create-applications-with-the-copilot-cli",
+  "skills-customize-your-github-copilot-experience"
+]);
+
 async function main() {
   const headers = { Accept: "application/vnd.github+json", "User-Agent": "portfolio-repo-sync" };
   if (token) headers.Authorization = `Bearer ${token}`;
@@ -23,7 +33,7 @@ async function main() {
   const data = await response.json();
 
   const repos = data
-    .filter((repo) => !repo.private)
+    .filter((repo) => !repo.private && !EXCLUDED_REPOS.has(repo.name))
     .map((repo) => ({
       name: repo.name,
       description: repo.description ?? null,

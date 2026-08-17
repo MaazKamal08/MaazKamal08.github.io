@@ -40,7 +40,8 @@ import {
   skillGroups,
   story
 } from "@/data/portfolio";
-import { fallbackRepos, repoDataGeneratedAt, type RepoSnapshot } from "@/data/githubRepos";
+import { classifyRepo, fallbackRepos, repoDataGeneratedAt, type RepoSnapshot } from "@/data/githubRepos";
+import NextLink from "next/link";
 import { mediumGeneratedAt, mediumPosts, mediumUsername } from "@/data/mediumPosts";
 import { testimonials } from "@/data/testimonials";
 
@@ -155,14 +156,6 @@ function RadarChart() {
   );
 }
 
-function classifyRepo(repo: RepoSnapshot) {
-  const text = `${repo.name} ${repo.description ?? ""}`.toLowerCase();
-  if (text.includes("wazuh") || text.includes("cve") || text.includes("virustotal") || text.includes("sophos") || text.includes("tls") || text.includes("apk")) return "Security automation";
-  if (text.includes("ai") || text.includes("agent") || text.includes("copilot") || text.includes("blog")) return "AI automation";
-  if (repo.fork) return "Learning / fork";
-  return "Client workflow";
-}
-
 function RepoIntelligence({ query }: { query: string }) {
   // Static data refreshed daily by .github/workflows/refresh-content.yml using an
   // authenticated GitHub API call - see scripts/fetch-github-repos.mjs. This replaces the old
@@ -182,7 +175,7 @@ function RepoIntelligence({ query }: { query: string }) {
     acc[language] = (acc[language] ?? 0) + 1;
     return acc;
   }, {});
-  const latest = [...filtered].sort((a, b) => +new Date(b.pushed_at) - +new Date(a.pushed_at)).slice(0, 6);
+  const latest = [...filtered].sort((a, b) => +new Date(b.pushed_at) - +new Date(a.pushed_at)).slice(0, 4);
 
   return (
     <section id="github" className="section">
@@ -193,6 +186,9 @@ function RepoIntelligence({ query }: { query: string }) {
         </div>
         <span className="status online">{syncedOn ? `Synced ${syncedOn}` : "Synced daily via GitHub Actions"}</span>
       </div>
+      <p className="repo-count-line">
+        {repos.length} public repositories tracked - <NextLink href="/repos/">view the complete list</NextLink>.
+      </p>
       <div className="github-grid">
         <div className="panel">
           <h3>Project clusters</h3>
@@ -225,6 +221,7 @@ function RepoIntelligence({ query }: { query: string }) {
               </a>
             ))}
           </div>
+          <NextLink href="/repos/" className="secondary-btn repo-view-all">View all {repos.length} repositories <ArrowRight size={16} /></NextLink>
         </div>
       </div>
       <div className="insight-strip">
