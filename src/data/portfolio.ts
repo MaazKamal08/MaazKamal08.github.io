@@ -21,6 +21,12 @@ export type Project = {
   features: string[];
   metrics: string[];
   lesson: string;
+  /**
+   * Optional path (under /public) to a sanitized workflow screenshot or recording still,
+   * e.g. "/projects/ip-blocking-pipeline.png". Leave unset until a sanitized image exists -
+   * see README "Adding project screenshots" for the exact filename each project expects.
+   */
+  screenshot?: string;
 };
 
 export type Experience = {
@@ -62,7 +68,7 @@ export const profile = {
   phone: "+92 336 3119749",
   github: "https://github.com/MaazKamal08",
   linkedin: "https://www.linkedin.com/in/mmaazkamal",
-  consultationForm: "https://docs.google.com/forms/d/e/1FAIpQLSf_K4bYCqcZMBx_YnN5nyu0eernOVVZEDTGos8MoEngNgNq7w/viewform",
+  medium: "https://medium.com/@muhammadmaazkamal",
   roles: ["Full Stack AI Engineer", "Senior Information Security Analyst", "AI/Automation Engineer", "Cybersecurity Engineer"],
   proof: [
     { label: "AI engineering", value: "4+ yrs" },
@@ -299,16 +305,16 @@ export const experiences: Experience[] = [
     company: "NJ Marketing Group Inc",
     period: "Jan 2023 - Jan 2025",
     location: "Remote",
-    focus: "Built production LLM applications, document intelligence tools, and agentic workflows.",
-    wins: ["Delivered RAG and chatbot systems", "Integrated OpenAI/Anthropic APIs", "Deployed FastAPI + Docker + AWS services"]
+    focus: "Built production LLM applications, document intelligence tools, and agentic workflows - run remotely concurrent with an on-site SOC role at CommTel.",
+    wins: ["Delivered RAG and chatbot systems", "Integrated OpenAI/Anthropic APIs", "Deployed FastAPI + Docker + AWS services", "Concurrent: remote AI engineering while on-site full-time at CommTel"]
   },
   {
     role: "Information Security Analyst",
     company: "CommTel",
     period: "Jan 2023 - Sep 2024",
     location: "Karachi - On-site",
-    focus: "L2 SOC operations, SIEM tuning, incident response, vulnerability management, and compliance.",
-    wins: ["Reduced false positives 25%", "Authored 8 IR playbooks", "Cut containment from 4 hours to 90 minutes"]
+    focus: "L2 SOC operations, SIEM tuning, incident response, vulnerability management, and compliance - run on-site concurrent with a remote AI engineering role at NJ Marketing Group.",
+    wins: ["Reduced false positives 25%", "Authored 8 IR playbooks", "Cut containment from 4 hours to 90 minutes", "Concurrent: on-site SOC work while remote for NJ Marketing Group"]
   },
   {
     role: "AI Engineering Intern",
@@ -350,9 +356,11 @@ export const repoHighlights = [
 ];
 
 export const roadmap = [
+  "Drop sanitized workflow screenshots into /public/projects (see README) - slots are wired and will appear automatically.",
   "Open-source sanitized SmartPhish modules with mock campaign data.",
   "Publish FirewallAI as an approval-first policy reasoning demo.",
   "Add signed case-study PDFs for enterprise clients where confidentiality permits.",
-  "Connect a serverless GitHub intelligence cache for faster public portfolio loading.",
-  "Add OpenAI-backed portfolio assistant once an API key and safety policy are configured."
+  "Swap placeholder testimonial slots for real client quotes once approved.",
+  "Point the custom domain (once purchased) at GitHub Pages and update metadata.",
+  "Add an OpenAI/Anthropic-backed portfolio assistant via a serverless edge function once an API key and safety policy are configured."
 ];

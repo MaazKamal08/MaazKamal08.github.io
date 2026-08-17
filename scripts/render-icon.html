@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { width:512px; height:512px; }
+  .icon {
+    width:512px; height:512px; border-radius: 110px;
+    background: linear-gradient(155deg, #0d1716 0%, #081111 60%);
+    border: 10px solid rgba(70,240,191,0.55);
+    display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden;
+  }
+  .icon::after {
+    content:"";
+    position:absolute; inset:0;
+    background: radial-gradient(circle at 30% 20%, rgba(70,240,191,0.28), transparent 55%);
+  }
+  .mark {
+    position:relative; z-index:2;
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-weight:700; font-size: 168px; letter-spacing:-6px; color:#6fffd2;
+    text-shadow: 0 0 46px rgba(111,255,210,0.55);
+  }
+</style>
+</head>
+<body>
+  <div class="icon"><div class="mark">M</div></div>
+</body>
+</html>

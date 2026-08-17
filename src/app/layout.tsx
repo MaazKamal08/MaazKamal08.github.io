@@ -43,12 +43,21 @@ export const metadata: Metadata = {
     title: "Muhammad Maaz Kamal - AI Security Engineer",
     description:
       "Portfolio for an AI Security Engineer blending SOC leadership, agentic AI, automation, and cloud-native product engineering.",
-    siteName: "Muhammad Maaz Kamal Portfolio"
+    siteName: "Muhammad Maaz Kamal Portfolio",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Muhammad Maaz Kamal - AI Security Engineer"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
     title: "Muhammad Maaz Kamal - AI Security Engineer",
-    description: "AI-native cyber defense, SOC automation, RAG, agents, and production n8n systems."
+    description: "AI-native cyber defense, SOC automation, RAG, agents, and production n8n systems.",
+    images: ["/og-image.png"]
   },
   robots: {
     index: true,
@@ -73,7 +82,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     email: "mailto:muhammadmaazkamal@gmail.com",
     telephone: "+923363119749",
     url: "https://maazkamal08.github.io",
-    sameAs: ["https://github.com/MaazKamal08", "https://www.linkedin.com/in/mmaazkamal"],
+    sameAs: ["https://github.com/MaazKamal08", "https://www.linkedin.com/in/mmaazkamal", "https://medium.com/@muhammadmaazkamal"],
+    image: "https://maazkamal08.github.io/maaz-profile.jpg",
     knowsAbout: [
       "AI Engineering",
       "Cybersecurity",

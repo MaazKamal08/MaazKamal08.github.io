@@ -1,0 +1,45 @@
+name: Refresh GitHub + Medium content
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # daily at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Fetch latest GitHub repos
+        run: node scripts/fetch-github-repos.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch latest Medium posts
+        run: node scripts/fetch-medium-posts.mjs
+        env:
+          MEDIUM_USERNAME: muhammadmaazkamal
+
+      - name: Commit refreshed content
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/github-repos.generated.json src/data/medium-posts.generated.json
+          if git diff --cached --quiet; then
+            echo "No content changes."
+          else
+            git commit -m "chore: refresh GitHub repos and Medium posts"
+            git push
+          fi
+          # Note: intentionally no [skip ci] - this push should trigger deploy.yml
+          # so the live site rebuilds with the freshly synced data.

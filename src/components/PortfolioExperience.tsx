@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useReducedMotion } from "framer-motion";
 import gsap from "gsap";
@@ -11,17 +11,20 @@ import {
   Check,
   Command,
   Download,
+  ExternalLink,
   GitBranch,
   Link,
   Mail,
   Mic,
   Moon,
   Phone,
+  Quote,
   Search,
   ShieldCheck,
   Sparkles,
   Sun,
   Terminal,
+  X,
   Zap
 } from "lucide-react";
 import * as THREE from "three";
@@ -37,13 +40,38 @@ import {
   skillGroups,
   story
 } from "@/data/portfolio";
-import { fallbackRepos, type RepoSnapshot } from "@/data/githubRepos";
+import { fallbackRepos, repoDataGeneratedAt, type RepoSnapshot } from "@/data/githubRepos";
+import { mediumGeneratedAt, mediumPosts, mediumUsername } from "@/data/mediumPosts";
+import { testimonials } from "@/data/testimonials";
 
 type Theme = "dark" | "light";
 
 const publicBasePath = process.env.NEXT_PUBLIC_REPOSITORY_NAME ? `/${process.env.NEXT_PUBLIC_REPOSITORY_NAME}` : "";
 const publicAsset = (path: string) => `${publicBasePath}${path}`;
-const navItems = ["services", "skills", "projects", "github", "experience", "systems-lab", "contact"];
+// "testimonials" only appears in navigation once real entries exist - see src/data/testimonials.ts.
+const navItems = [
+  "services",
+  "skills",
+  "projects",
+  "github",
+  "writing",
+  ...(testimonials.length > 0 ? ["testimonials"] : []),
+  "experience",
+  "systems-lab",
+  "contact"
+];
+
+function slugifyProject(title: string) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function formatSyncDate(iso: string | null) {
+  if (!iso) return null;
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
 
 function SignalField() {
   const points = useRef<THREE.Points>(null);
@@ -136,24 +164,12 @@ function classifyRepo(repo: RepoSnapshot) {
 }
 
 function RepoIntelligence({ query }: { query: string }) {
-  const [repos, setRepos] = useState<RepoSnapshot[]>(fallbackRepos);
-  const [live, setLive] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch("https://api.github.com/users/MaazKamal08/repos?per_page=100&sort=updated")
-      .then((response) => (response.ok ? response.json() : Promise.reject(new Error("GitHub unavailable"))))
-      .then((data: RepoSnapshot[]) => {
-        if (!cancelled) {
-          setRepos(data);
-          setLive(true);
-        }
-      })
-      .catch(() => setLive(false));
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  // Static data refreshed daily by .github/workflows/refresh-content.yml using an
+  // authenticated GitHub API call - see scripts/fetch-github-repos.mjs. This replaces the old
+  // unauthenticated client-side fetch, which capped at 60 req/hr per IP (shared across every
+  // visitor on the same network) and silently fell back to stale data when it was exhausted.
+  const repos: RepoSnapshot[] = fallbackRepos;
+  const syncedOn = formatSyncDate(repoDataGeneratedAt);
 
   const filtered = repos.filter((repo) => `${repo.name} ${repo.description ?? ""}`.toLowerCase().includes(query.toLowerCase()));
   const categories = filtered.reduce<Record<string, number>>((acc, repo) => {
@@ -175,7 +191,7 @@ function RepoIntelligence({ query }: { query: string }) {
           <p className="eyebrow">GitHub intelligence</p>
           <h2>Repository portfolio, categorized by business capability.</h2>
         </div>
-        <span className={`status ${live ? "online" : ""}`}>{live ? "Live GitHub sync" : "Static fallback"}</span>
+        <span className="status online">{syncedOn ? `Synced ${syncedOn}` : "Synced daily via GitHub Actions"}</span>
       </div>
       <div className="github-grid">
         <div className="panel">
@@ -218,6 +234,93 @@ function RepoIntelligence({ query }: { query: string }) {
   );
 }
 
+function WritingSection() {
+  const syncedOn = formatSyncDate(mediumGeneratedAt);
+  const hasPosts = mediumPosts.length > 0;
+
+  return (
+    <section id="writing" className="section">
+      <div className="section-head">
+        <div>
+          <p className="eyebrow">Writing</p>
+          <h2>Architecture walkthroughs and security notes, straight from Medium.</h2>
+        </div>
+        <span className="status online">{syncedOn ? `Synced ${syncedOn}` : "Synced daily via GitHub Actions"}</span>
+      </div>
+      {hasPosts ? (
+        <div className="project-grid">
+          {mediumPosts.map((post) => (
+            <a className="project-card writing-card" key={post.link} href={post.link} target="_blank" rel="noreferrer">
+              <div className="project-top">
+                <span>{post.categories[0] ?? "Article"}</span>
+                <small>{post.readTime}</small>
+              </div>
+              <h3>{post.title}</h3>
+              <p>{post.excerpt}</p>
+              <div className="tag-row">{post.categories.slice(1).map((tag) => <span key={tag}>{tag}</span>)}</div>
+              <small className="lesson"><ExternalLink size={14} /> Read on Medium</small>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div className="panel writing-empty">
+          <h3>New posts sync in automatically.</h3>
+          <p>
+            This section pulls directly from{" "}
+            <a href={profile.medium} target="_blank" rel="noreferrer">@{mediumUsername}</a> on Medium once posts are
+            published there - no manual updates needed on this site.
+          </p>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function TestimonialsSection() {
+  if (testimonials.length === 0) {
+    return (
+      <section id="testimonials" className="section">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Client and colleague signal</p>
+            <h2>Social proof, pending sign-off.</h2>
+          </div>
+        </div>
+        <div className="cert-grid">
+          {[0, 1, 2].map((slot) => (
+            <article className="cert-card testimonial-slot" key={slot}>
+              <Quote size={18} />
+              <p>Open testimonial slot - add a permissioned client or colleague quote in src/data/testimonials.ts.</p>
+              <strong>Awaiting a quote</strong>
+            </article>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section id="testimonials" className="section">
+      <div className="section-head">
+        <div>
+          <p className="eyebrow">Client and colleague signal</p>
+          <h2>What it's like working with Maaz.</h2>
+        </div>
+      </div>
+      <div className="cert-grid">
+        {testimonials.map((testimonial) => (
+          <article className="cert-card" key={`${testimonial.name}-${testimonial.company ?? ""}`}>
+            <Quote size={18} />
+            <p>&ldquo;{testimonial.quote}&rdquo;</p>
+            <strong>{testimonial.name}</strong>
+            <span>{testimonial.role}{testimonial.company ? ` · ${testimonial.company}` : ""}</span>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export function PortfolioExperience() {
   const [theme, setTheme] = useState<Theme>("dark");
   const [search, setSearch] = useState("");
@@ -226,6 +329,8 @@ export function PortfolioExperience() {
   const [assistantQuery, setAssistantQuery] = useState("What makes Maaz different?");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("top");
+  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+  const [brokenScreenshots, setBrokenScreenshots] = useState<Record<string, boolean>>({});
   const rootRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const sectionLabels: Record<string, string> = {
@@ -234,6 +339,8 @@ export function PortfolioExperience() {
     skills: "Skills",
     projects: "Projects",
     github: "GitHub",
+    writing: "Writing",
+    testimonials: "Testimonials",
     experience: "Experience",
     "systems-lab": "Systems lab",
     contact: "Contact"
@@ -292,9 +399,15 @@ export function PortfolioExperience() {
     const q = assistantQuery.toLowerCase();
     if (q.includes("project")) return "Start with Enterprise RAG systems, SmartPhish, the sub-90-second IP blocking pipeline, and client automation builds. Together they show AI product engineering, security depth, and delivery leadership.";
     if (q.includes("hire") || q.includes("different")) return "Maaz balances AI engineering and cybersecurity engineering: agents, RAG, APIs, and automation on one side; SOC L3, EDR/XDR, SOAR, phishing simulation, detection, response, and compliance on the other. The rare part is that he leads teams and client delivery across both.";
-    if (q.includes("contact")) return `Email ${profile.email}, call ${profile.phone}, or use the consultation form for project and service requests.`;
+    if (q.includes("contact") || q.includes("book") || q.includes("consult")) return `Email ${profile.email}, call ${profile.phone}, or fill out the brief in the contact section below - every CTA on this page leads there.`;
+    if (q.includes("blog") || q.includes("writing") || q.includes("article") || q.includes("medium")) return "Longer technical write-ups live in the Writing section, synced daily from Medium - architecture walkthroughs, security notes, and lessons learned.";
     return "This service guide routes recruiters and clients toward Maaz's strongest AI engineering, security automation, SOC, cloud, and client-delivery evidence.";
   }, [assistantQuery]);
+
+  const scrollToContact = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const startVoiceNavigation = () => {
     const SpeechRecognition = (window as unknown as { SpeechRecognition?: any; webkitSpeechRecognition?: any }).SpeechRecognition ??
@@ -348,7 +461,7 @@ export function PortfolioExperience() {
             I build AI products and security systems in parallel: RAG platforms, agentic workflows, CRM automations, and full-stack AI tools on one side; SOC triage, phishing intelligence, detection engineering, and firewall response pipelines on the other. Together, they turn business workflows and cyber threats into measurable, auditable action.
           </p>
           <div className="hero-actions">
-            <a className="primary-btn" href={profile.consultationForm} target="_blank" rel="noreferrer">Get consultation <ArrowRight size={18} /></a>
+            <a className="primary-btn" href="#contact" onClick={scrollToContact}>Get consultation <ArrowRight size={18} /></a>
             <a className="secondary-btn" href="#projects">View case studies <ArrowRight size={18} /></a>
             <a className="secondary-btn" href={publicAsset("/Maaz_Kamal_AI_Automation_Resume.pdf")} download>AI resume <Download size={18} /></a>
             <a className="secondary-btn" href={publicAsset("/Maaz_Kamal_Security_Resume.pdf")} download>Security resume <Download size={18} /></a>
@@ -358,7 +471,7 @@ export function PortfolioExperience() {
         <div className="hero-visual" aria-label="Muhammad Maaz Kamal profile and security operations signal panel">
           {!reducedMotion ? <Canvas camera={{ position: [0, 0, 4], fov: 50 }}><SignalField /></Canvas> : <div className="static-field" />}
           <div className="profile-frame">
-            <img src={publicAsset("/maaz-profile.jfif")} alt="Muhammad Maaz Kamal" />
+            <img src={publicAsset("/maaz-profile.jpg")} alt="Muhammad Maaz Kamal" />
             <div className="profile-caption">
               <strong>SOC L3 / AI Security</strong>
               <span>Karachi · Remote global</span>
@@ -385,7 +498,7 @@ export function PortfolioExperience() {
           <p className="eyebrow">AI engineering and cybersecurity services</p>
           <h2>Need an AI workflow, SOC automation, RAG system, or client ops engine built properly?</h2>
         </div>
-        <a className="primary-btn" href={profile.consultationForm} target="_blank" rel="noreferrer">Book your service <ArrowRight size={18} /></a>
+        <a className="primary-btn" href="#contact" onClick={scrollToContact}>Book your service <ArrowRight size={18} /></a>
       </section>
 
       <section id="services" className="section services-section">
@@ -473,33 +586,61 @@ export function PortfolioExperience() {
           </label>
         </div>
         <div className="project-grid">
-          {filteredProjects.map((project) => (
-            <article className="project-card" key={project.title}>
-              <div className="project-top"><span>{project.category}</span><small>{project.status}</small></div>
-              <h3>{project.title}</h3>
-              <p>{project.problem}</p>
-              <div className="impact"><Zap size={16} />{project.impact}</div>
-              <div className="architecture">
-                {project.architecture.map((step) => <span key={step}>{step}</span>)}
-              </div>
-              <div className="tag-row">{project.stack.map((tech) => <span key={tech}>{tech}</span>)}</div>
-              <ul>
-                {project.metrics.map((metric) => <li key={metric}><Check size={15} />{metric}</li>)}
-              </ul>
-              <small className="lesson">{project.lesson}</small>
-            </article>
-          ))}
+          {filteredProjects.map((project) => {
+            const screenshotPath = project.screenshot ?? publicAsset(`/projects/${slugifyProject(project.title)}.png`);
+            const screenshotBroken = brokenScreenshots[project.title];
+            return (
+              <article className="project-card" key={project.title}>
+                <div className="project-top"><span>{project.category}</span><small>{project.status}</small></div>
+                <h3>{project.title}</h3>
+                {!screenshotBroken && (
+                  <button
+                    type="button"
+                    className="project-screenshot"
+                    onClick={() => setLightbox({ src: screenshotPath, alt: `${project.title} sanitized workflow screenshot` })}
+                    aria-label={`View ${project.title} workflow screenshot`}
+                  >
+                    <img
+                      src={screenshotPath}
+                      alt=""
+                      loading="lazy"
+                      onError={() => setBrokenScreenshots((current) => ({ ...current, [project.title]: true }))}
+                    />
+                  </button>
+                )}
+                <p>{project.problem}</p>
+                <div className="impact"><Zap size={16} />{project.impact}</div>
+                <div className="architecture">
+                  {project.architecture.map((step) => <span key={step}>{step}</span>)}
+                </div>
+                <div className="tag-row">{project.stack.map((tech) => <span key={tech}>{tech}</span>)}</div>
+                <ul>
+                  {project.metrics.map((metric) => <li key={metric}><Check size={15} />{metric}</li>)}
+                </ul>
+                <small className="lesson">{project.lesson}</small>
+              </article>
+            );
+          })}
         </div>
         <div className="inline-cta">
           <div>
             <strong>Want a system like these for your team?</strong>
             <span>AI agents, RAG knowledge systems, CRM automations, SOC triage, phishing simulations, and security response workflows.</span>
           </div>
-          <a className="primary-btn" href={profile.consultationForm} target="_blank" rel="noreferrer">Request a build <ArrowRight size={18} /></a>
+          <a className="primary-btn" href="#contact" onClick={scrollToContact}>Request a build <ArrowRight size={18} /></a>
         </div>
       </section>
 
+      {lightbox && (
+        <div className="lightbox-backdrop" onClick={() => setLightbox(null)}>
+          <button className="lightbox-close" onClick={() => setLightbox(null)} aria-label="Close screenshot"><X size={20} /></button>
+          <img src={lightbox.src} alt={lightbox.alt} onClick={(event) => event.stopPropagation()} />
+        </div>
+      )}
+
       <RepoIntelligence query={search} />
+
+      <WritingSection />
 
       <section id="experience" className="section">
         <div className="section-head">
@@ -561,6 +702,8 @@ export function PortfolioExperience() {
         <div className="roadmap-list">{roadmap.map((item) => <p key={item}>{item}</p>)}</div>
       </section>
 
+      <TestimonialsSection />
+
       <section id="contact" className="section contact-section">
         <div>
           <p className="eyebrow">Contact center</p>
@@ -578,7 +721,7 @@ export function PortfolioExperience() {
           <input name="email" placeholder="Email" type="email" />
           <textarea name="message" placeholder="Project, role, or collaboration details" rows={5} />
           <button className="primary-btn" type="submit">Send brief <Mail size={18} /></button>
-          <a className="secondary-btn" href={profile.consultationForm} target="_blank" rel="noreferrer"><Calendar size={18} /> Book consultation</a>
+          <a className="secondary-btn" href={`mailto:${profile.email}?subject=Consultation request`}><Calendar size={18} /> Book consultation</a>
         </form>
       </section>
 
