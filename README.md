@@ -27,6 +27,10 @@ Each project card automatically looks for a sanitized screenshot at `public/proj
 
 If no file exists at that path, the card simply shows no screenshot (no broken-image icon). Per the portfolio audit: only add real screenshots after rebuilding the workflow in a sandbox with fake IPs/payloads (never screenshot a production console), and get client sign-off before showing the RAG or WooCommerce workflow canvases.
 
+## Adding repository workflow screenshots
+
+The `/repos` page (all public GitHub repos, `src/components/AllRepos.tsx`) follows the same convention for any repo, not just the 6 case studies above: drop a screenshot at `public/workflows/<repo-slug>.png`, where `<repo-slug>` is the repo name lowercased with any non-alphanumeric run collapsed to a single hyphen (e.g. `n8n-wazuh-ip-blocker-1q6od` -> `public/workflows/n8n-wazuh-ip-blocker-1q6od.png`). No code changes needed, and repos without a file simply show no screenshot. Same redaction rule applies: sandbox/mock data only, never a real production console or client-identifying details.
+
 ## Testimonials
 
 `src/data/testimonials.ts` is empty by default and the site will never show a fabricated quote. While empty, the Testimonials section shows honest "awaiting a quote" placeholder slots. Add an entry only once you have the person's permission to publish their name and quote:

@@ -9,11 +9,21 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
+function slugifyRepoName(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+const publicBasePath = process.env.NEXT_PUBLIC_REPOSITORY_NAME ? `/${process.env.NEXT_PUBLIC_REPOSITORY_NAME}` : "";
+
 const CATEGORIES: Array<RepoCategory | "All"> = ["All", "Security automation", "AI automation", "Client workflow", "Learning / fork"];
 
 export function AllRepos() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("All");
+  const [brokenScreenshots, setBrokenScreenshots] = useState<Record<string, boolean>>({});
 
   const repos = fallbackRepos;
   const syncedOn = repoDataGeneratedAt
@@ -72,20 +82,33 @@ export function AllRepos() {
 
       <section className="section">
         <div className="repo-full-grid">
-          {filtered.map((repo) => (
-            <a key={repo.html_url} href={repo.html_url} target="_blank" rel="noreferrer" className="repo-item repo-full-item">
-              <div className="repo-full-item-head">
-                <span>{classifyRepo(repo)}</span>
-                <ExternalLink size={14} />
-              </div>
-              <strong>{repo.name}</strong>
-              <small>{repo.description ?? "No public description"}</small>
-              <div className="repo-full-item-meta">
-                <span>{repo.language ?? "Workflow"}</span>
-                <span>Updated {formatDate(repo.pushed_at)}</span>
-              </div>
-            </a>
-          ))}
+          {filtered.map((repo) => {
+            const screenshotPath = `${publicBasePath}/workflows/${slugifyRepoName(repo.name)}.png`;
+            const screenshotBroken = brokenScreenshots[repo.name];
+            return (
+              <a key={repo.html_url} href={repo.html_url} target="_blank" rel="noreferrer" className="repo-item repo-full-item">
+                {!screenshotBroken && (
+                  <img
+                    className="repo-full-item-screenshot"
+                    src={screenshotPath}
+                    alt=""
+                    loading="lazy"
+                    onError={() => setBrokenScreenshots((current) => ({ ...current, [repo.name]: true }))}
+                  />
+                )}
+                <div className="repo-full-item-head">
+                  <span>{classifyRepo(repo)}</span>
+                  <ExternalLink size={14} />
+                </div>
+                <strong>{repo.name}</strong>
+                <small>{repo.description ?? "No public description"}</small>
+                <div className="repo-full-item-meta">
+                  <span>{repo.language ?? "Workflow"}</span>
+                  <span>Updated {formatDate(repo.pushed_at)}</span>
+                </div>
+              </a>
+            );
+          })}
         </div>
         {filtered.length === 0 && <p className="repo-empty">No repositories match that search.</p>}
       </section>

@@ -1058,6 +1058,15 @@ h3 {
   justify-content: space-between;
 }
 
+.repo-full-item-screenshot {
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-bottom: 4px;
+  object-fit: cover;
+  width: 100%;
+}
+
 .repo-full-item-meta {
   color: var(--muted);
   display: flex;
