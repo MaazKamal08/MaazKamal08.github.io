@@ -1,5 +1,32 @@
 {
-  "generatedAt": null,
+  "generatedAt": "2026-08-17T22:16:57.520Z",
   "username": "muhammadmaazkamal",
-  "posts": []
+  "posts": [
+    {
+      "title": "Building an Automated Threat Response Pipeline with Wazuh, VirusTotal, pfSense & n8n",
+      "link": "https://medium.com/@muhammadmaazkamal/building-an-automated-threat-response-pipeline-with-wazuh-virustotal-pfsense-n8n-2ca4a3306ec7",
+      "pubDate": "Sun, 02 Aug 2026 18:18:01 GMT",
+      "excerpt": "",
+      "readTime": "1 min read",
+      "categories": [
+        "cybersecurity",
+        "artificial-intelligence",
+        "automation",
+        "wazuh"
+      ]
+    },
+    {
+      "title": "Integrating WhatsApp Alerts with Wazuh Using WaAPI",
+      "link": "https://medium.com/@muhammadmaazkamal/integrating-whatsapp-alerts-with-wazuh-using-waapi-b22a1b3d02a0",
+      "pubDate": "Thu, 29 May 2025 19:49:04 GMT",
+      "excerpt": "",
+      "readTime": "1 min read",
+      "categories": [
+        "whatsapp",
+        "soc",
+        "cybersecurity",
+        "security"
+      ]
+    }
+  ]
 }
