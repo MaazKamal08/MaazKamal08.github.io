@@ -12,6 +12,7 @@ import {
   Command,
   Download,
   ExternalLink,
+  FolderGit2,
   GitBranch,
   Link,
   Mail,
@@ -463,6 +464,7 @@ export function PortfolioExperience() {
           {navItems.map((item) => <a key={item} className={activeSection === item ? "active" : ""} href={`#${item}`}>{item.replace("-", " ")}</a>)}
         </div>
         <div className="nav-actions">
+          <NextLink href="/repos/" className="nav-repos-pill"><FolderGit2 size={14} /> All repos <span>{fallbackRepos.length}</span></NextLink>
           <button aria-label="Open command palette" className="icon-btn" onClick={() => setCommandOpen(true)}><Command size={18} /></button>
           <button aria-label="Start voice navigation" className="icon-btn" onClick={startVoiceNavigation}><Mic size={18} /></button>
           <button aria-label="Toggle theme" className="icon-btn" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}</button>
@@ -757,11 +759,13 @@ export function PortfolioExperience() {
       </section>
 
       <button className="assistant-launcher" onClick={() => setAssistantOpen(true)} aria-label="Open service guide"><Bot size={22} /></button>
-      <aside className="smart-hud" aria-label="Portfolio navigation status">
-        <span>Current section</span>
-        <strong>{sectionLabels[activeSection] ?? activeSection}</strong>
-        <div><i style={{ width: `${scrollProgress}%` }} /></div>
-      </aside>
+      {activeSection !== "top" && (
+        <aside className="smart-hud" aria-label="Portfolio navigation status">
+          <span>Current section</span>
+          <strong>{sectionLabels[activeSection] ?? activeSection}</strong>
+          <div><i style={{ width: `${scrollProgress}%` }} /></div>
+        </aside>
+      )}
       {assistantOpen && (
         <div className="assistant-panel" role="dialog" aria-label="Portfolio service guide">
           <div><strong>Service guide</strong><button onClick={() => setAssistantOpen(false)}>Close</button></div>

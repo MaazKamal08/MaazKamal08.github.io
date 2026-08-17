@@ -164,6 +164,35 @@ button {
   width: 38px;
 }
 
+.nav-repos-pill {
+  align-items: center;
+  background: linear-gradient(90deg, rgba(70, 240, 191, 0.16), rgba(107, 183, 255, 0.1));
+  border: 1px solid rgba(70, 240, 191, 0.32);
+  border-radius: 999px;
+  color: var(--mint);
+  display: inline-flex;
+  font-size: 0.82rem;
+  font-weight: 600;
+  gap: 7px;
+  height: 38px;
+  padding: 0 14px;
+  transition: border-color 180ms ease, transform 180ms ease;
+  white-space: nowrap;
+}
+
+.nav-repos-pill:hover {
+  border-color: var(--mint);
+  transform: translateY(-1px);
+}
+
+.nav-repos-pill span {
+  background: color-mix(in srgb, var(--mint) 22%, transparent);
+  border-radius: 999px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.74rem;
+  padding: 1px 7px;
+}
+
 .hero,
 .section,
 .metrics {
@@ -989,6 +1018,14 @@ h3 {
 
 .repos-hero {
   padding-top: 120px;
+}
+
+.repos-hero h1 {
+  max-width: 720px;
+}
+
+.repos-hero p {
+  max-width: 720px;
 }
 
 .back-link {
