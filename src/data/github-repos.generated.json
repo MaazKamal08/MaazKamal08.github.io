@@ -1,6 +1,18 @@
 {
-  "generatedAt": "2026-08-17T21:44:33.035Z",
+  "generatedAt": "2026-08-18T06:29:29.955Z",
   "repos": [
+    {
+      "name": "kaspersky-jira-chat-automator-1yzdo",
+      "description": "Automates Jira ticket creation and Google Chat notifications for specific Kaspersky email alerts from a dedicated sender",
+      "fork": false,
+      "language": null,
+      "size": 8,
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "pushed_at": "2026-08-17T22:16:56Z",
+      "html_url": "https://github.com/MaazKamal08/kaspersky-jira-chat-automator-1yzdo"
+    },
     {
       "name": "n8n-wazuh-vulnerability-prioritization-15rzl",
       "description": "Automates Wazuh vulnerability collection, enriches with EPSS/CISA KEV, and generates prioritized security reports.",
@@ -254,18 +266,6 @@
       "html_url": "https://github.com/MaazKamal08/n8n-email-ip-virustotal-jira-automation-1g9pn"
     },
     {
-      "name": "kaspersky-jira-chat-automator-1yzdo",
-      "description": "Automates Jira ticket creation and Google Chat notifications for specific Kaspersky email alerts from a dedicated sender",
-      "fork": false,
-      "language": null,
-      "size": 5,
-      "stargazers_count": 0,
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "pushed_at": "2026-05-26T20:07:56Z",
-      "html_url": "https://github.com/MaazKamal08/kaspersky-jira-chat-automator-1yzdo"
-    },
-    {
       "name": "sophos-xg-block-wan-ip-18pvo",
       "description": "Automates blocking of specified IP addresses on a Sophos XG firewall via its API.",
       "fork": false,
@@ -278,7 +278,7 @@
       "html_url": "https://github.com/MaazKamal08/sophos-xg-block-wan-ip-18pvo"
     },
     {
-      "name": "apk-static-analysis-keenu-1j4iq",
+      "name": "apk-static-analysis-1j4iq",
       "description": "Automated static analysis for Android APKs, identifying secrets and security misconfigurations.",
       "fork": false,
       "language": null,
@@ -287,7 +287,7 @@
       "forks_count": 0,
       "open_issues_count": 0,
       "pushed_at": "2026-05-26T20:05:43Z",
-      "html_url": "https://github.com/MaazKamal08/apk-static-analysis-keenu-1j4iq"
+      "html_url": "https://github.com/MaazKamal08/apk-static-analysis-1j4iq"
     },
     {
       "name": "tls-version-scanner-auto-loop-1h8kr",
