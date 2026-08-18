@@ -16,8 +16,10 @@ function slugifyRepoName(name: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-function isN8nWorkflow(repo: { name: string; description: string | null }) {
-  return `${repo.name} ${repo.description ?? ""}`.toLowerCase().includes("n8n");
+function isN8nWorkflow(repo: { language: string | null; fork: boolean }) {
+  // n8n workflow exports are just a JSON file, so GitHub's linguist detects no
+  // dominant language for them - real code repos (Python, notebooks, forks) always have one.
+  return repo.language === null && !repo.fork;
 }
 
 const publicBasePath = process.env.NEXT_PUBLIC_REPOSITORY_NAME ? `/${process.env.NEXT_PUBLIC_REPOSITORY_NAME}` : "";
