@@ -41,5 +41,6 @@ jobs:
             git commit -m "chore: refresh GitHub repos and Medium posts"
             git push
           fi
-          # Note: intentionally no [skip ci] - this push should trigger deploy.yml
-          # so the live site rebuilds with the freshly synced data.
+          # deploy.yml listens for this workflow's completion via workflow_run and rebuilds
+          # the live site with the freshly synced data (a push made with the default
+          # GITHUB_TOKEN, like this one, does not cascade to other workflows on its own).

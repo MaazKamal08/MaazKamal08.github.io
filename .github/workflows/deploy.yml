@@ -4,6 +4,9 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Refresh GitHub + Medium content"]
+    types: [completed]
 
 permissions:
   contents: read
@@ -16,6 +19,10 @@ concurrency:
 
 jobs:
   build:
+    # A push made with the default GITHUB_TOKEN (like refresh-content.yml's commit) does not
+    # cascade to other workflows on its own, so this listens for that workflow's completion
+    # directly. Skip if that run failed - don't deploy on top of a broken data refresh.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
