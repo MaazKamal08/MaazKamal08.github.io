@@ -1104,6 +1104,12 @@ h3 {
   width: 100%;
 }
 
+.repo-full-item-logo {
+  background: #fff;
+  object-fit: contain;
+  padding: 22px 32px;
+}
+
 .repo-full-item-meta {
   color: var(--muted);
   display: flex;

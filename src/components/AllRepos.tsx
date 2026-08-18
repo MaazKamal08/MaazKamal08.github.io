@@ -16,6 +16,10 @@ function slugifyRepoName(name: string) {
     .replace(/(^-|-$)/g, "");
 }
 
+function isN8nWorkflow(repo: { name: string; description: string | null }) {
+  return `${repo.name} ${repo.description ?? ""}`.toLowerCase().includes("n8n");
+}
+
 const publicBasePath = process.env.NEXT_PUBLIC_REPOSITORY_NAME ? `/${process.env.NEXT_PUBLIC_REPOSITORY_NAME}` : "";
 
 const CATEGORIES: Array<RepoCategory | "All"> = ["All", "Security automation", "AI automation", "Client workflow", "Learning / fork"];
@@ -23,7 +27,7 @@ const CATEGORIES: Array<RepoCategory | "All"> = ["All", "Security automation", "
 export function AllRepos() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("All");
-  const [brokenScreenshots, setBrokenScreenshots] = useState<Record<string, boolean>>({});
+  const [screenshotState, setScreenshotState] = useState<Record<string, "logo" | "hidden">>({});
 
   const repos = fallbackRepos;
   const syncedOn = repoDataGeneratedAt
@@ -83,17 +87,23 @@ export function AllRepos() {
       <section className="section">
         <div className="repo-full-grid">
           {filtered.map((repo) => {
-            const screenshotPath = `${publicBasePath}/workflows/${slugifyRepoName(repo.name)}.png`;
-            const screenshotBroken = brokenScreenshots[repo.name];
+            const state = screenshotState[repo.name];
+            const screenshotPath =
+              state === "logo" ? `${publicBasePath}/n8n-logo.png` : `${publicBasePath}/workflows/${slugifyRepoName(repo.name)}.png`;
             return (
               <a key={repo.html_url} href={repo.html_url} target="_blank" rel="noreferrer" className="repo-item repo-full-item">
-                {!screenshotBroken && (
+                {state !== "hidden" && (
                   <img
-                    className="repo-full-item-screenshot"
+                    className={state === "logo" ? "repo-full-item-screenshot repo-full-item-logo" : "repo-full-item-screenshot"}
                     src={screenshotPath}
                     alt=""
                     loading="lazy"
-                    onError={() => setBrokenScreenshots((current) => ({ ...current, [repo.name]: true }))}
+                    onError={() =>
+                      setScreenshotState((current) => ({
+                        ...current,
+                        [repo.name]: current[repo.name] === "logo" ? "hidden" : isN8nWorkflow(repo) ? "logo" : "hidden"
+                      }))
+                    }
                   />
                 )}
                 <div className="repo-full-item-head">
