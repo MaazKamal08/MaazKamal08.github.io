@@ -1,6 +1,18 @@
 {
-  "generatedAt": "2026-09-05T09:44:46.500Z",
+  "generatedAt": "2026-09-06T10:00:40.091Z",
   "repos": [
+    {
+      "name": "CVE-Data-Enrichment",
+      "description": "A simple program to run get the cve details from nvd and cve",
+      "fork": false,
+      "language": "Python",
+      "size": 2781,
+      "stargazers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "pushed_at": "2026-09-06T00:28:37Z",
+      "html_url": "https://github.com/MaazKamal08/CVE-Data-Enrichment"
+    },
     {
       "name": "kaspersky-jira-chat-automator-1yzdo",
       "description": "Automates Jira ticket creation and Google Chat notifications for specific Kaspersky email alerts from a dedicated sender",
