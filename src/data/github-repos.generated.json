@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-21T11:36:53.469Z",
+  "generatedAt": "2026-09-22T10:41:58.638Z",
   "repos": [
     {
       "name": "CVE-Data-Enrichment",
@@ -276,18 +276,6 @@
       "open_issues_count": 0,
       "pushed_at": "2026-05-26T20:08:21Z",
       "html_url": "https://github.com/MaazKamal08/n8n-email-ip-virustotal-jira-automation-1g9pn"
-    },
-    {
-      "name": "sophos-xg-block-wan-ip-18pvo",
-      "description": "Automates blocking of specified IP addresses on a Sophos XG firewall via its API.",
-      "fork": false,
-      "language": null,
-      "size": 5,
-      "stargazers_count": 0,
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "pushed_at": "2026-05-26T20:07:32Z",
-      "html_url": "https://github.com/MaazKamal08/sophos-xg-block-wan-ip-18pvo"
     },
     {
       "name": "apk-static-analysis-1j4iq",
